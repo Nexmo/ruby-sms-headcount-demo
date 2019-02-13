@@ -1,0 +1,22 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+function update_headcount() {
+    $.ajax({
+        url: "/update_headcount",
+        accepts: "application/json",
+        dataType: "json",
+        success: function(data) {
+            if (data.headcount >= data.required) {
+                window.location = "/confirmation"
+            } else if (data.headcount < data.required) {
+                $("#headcount").html(data.headcount)
+            }
+        }
+    });
+}
+$(document).ready(function() {
+    setInterval(update_headcount, 10000);
+})
+</script>
+
+<p>Total number of attendees: <div id="headcount"><%= @@headcount %></div></p>
